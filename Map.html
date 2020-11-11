@@ -1,0 +1,65 @@
+<html>
+   <head>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="raphael.js"></script>
+      <script src="jquery.usmap.js"></script>
+      <link rel="stylesheet" type="text/css" href="Map.css" media="screen"/>
+   </head>
+   <body>
+      <title>COVID DATA</title>
+      <h1>COVID DATA INTERACTIVE MAP</h1>
+      </br>
+      </br>
+      </br>
+      <table align="center">
+         <tr>
+            <td>
+               <h1>
+               MAP (USA)
+               <h1>
+               <h3>SELECT A STATE BELOW TO SEE CURRENT COVID DATA</h3>
+               <div id="map" class="container"></div>
+            </td>
+            <td>
+               <h1>DATA</h1>
+               <div id="clicked-state"></div> 
+               <div id="covid-data"></div>
+            </td>
+         </tr>
+      </table>
+      <script>
+      $(document).ready(function() {
+          //Begin usmap plugin
+          $('#map').usmap({ 
+              //Call function on click
+              click: function(event, data) {
+                  $('#clicked-state')
+                     .text('YOU SELECTED: ' + data.name)
+                  //Clear existing COVID data
+                  $('#covid-data').empty();
+                  $.ajax({
+                      type: 'GET',
+                      //Covid Act Now API called from external proxy server to adhere to CORS same-orgin policy
+                      url: 'https://cors-anywhere.herokuapp.com/https://api.covidactnow.org/v2/state/' + data.name + '.json?apiKey=f34554f2707d411fa7211af149644b8f',
+                      dataType: 'json',
+                      success: function(data) {
+                          //parse JSON response to get KPIs
+                          var obj = JSON.parse(JSON.stringify(data));
+                          var caseDensity = obj.metrics.caseDensity.toFixed(1);
+                          var infectionRate = obj.metrics.infectionRate.toFixed(2);
+                          var testPositivityRatio = obj.metrics.testPositivityRatio.toFixed(1);
+
+                          
+                          $('#covid-data').append(
+                              "<p>DAILY NEW CASES PER 100K: <h2>" + caseDensity +
+                              "</h2></p><p>INFECTION RATE: <h2>" + infectionRate +
+                              "</h2></p><p>POSITIVE TEST RATE: <h2>" + testPositivityRatio + "%</h2></p>"
+                          );}
+                  });
+              }
+          });
+          //End usmap plugin
+      });
+      </script>
+   </body>
+   <html>

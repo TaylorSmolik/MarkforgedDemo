@@ -1,0 +1,27 @@
+
+* {
+font-family: Arial;
+}
+
+h1 {
+text-align:center;
+}
+
+p {
+font-size: 100%;
+}
+
+td { 
+width: 50%; 
+text-align:center; 
+vertical-align:top;
+}
+
+.container {
+width: 700px; 
+height: 700px;
+}
+
+#clicked-state {
+font-size: 30px;
+}
