@@ -40,7 +40,7 @@
                   $.ajax({
                       type: 'GET',
                       //Covid Act Now API called from external proxy server to adhere to CORS same-orgin policy
-                      url: 'https://cors-anywhere.herokuapp.com/https://api.covidactnow.org/v2/state/' + data.name + '.json?apiKey=f34554f2707d411fa7211af149644b8f',
+                      url: 'https://api.covidactnow.org/v2/state/' + data.name + '.json?apiKey=f34554f2707d411fa7211af149644b8f',
                       dataType: 'json',
                       success: function(data) {
                           //parse JSON response to get KPIs
